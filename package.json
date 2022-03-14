@@ -1,12 +1,11 @@
 {
   "name": "cloudflare-kv-store",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Simpler Cloudflare KV Store implementation.",
   "main": "./dist/index.min.js",
   "files": [
     "dist/index.min.js"
   ],
-  "type": "module",
   "keywords": [
     "cloudflare",
     "worker",
