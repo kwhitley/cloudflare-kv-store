@@ -1,81 +1,65 @@
 {
-  "name": "itty-router",
-  "version": "2.5.2",
-  "description": "Tiny, zero-dependency router with route param and query parsing - built for Cloudflare Workers, but works everywhere!",
-  "main": "./dist/itty-router.min.js",
-  "types": "./dist/itty-router.d.ts",
+  "name": "cloudflare-kv-store",
+  "version": "0.1.0",
+  "description": "Simpler Cloudflare KV Store implementation.",
+  "main": "./dist/index.min.js",
   "files": [
-    "dist/itty-router.min.js",
-    "dist/itty-router.d.ts"
+    "dist/index.min.js"
   ],
+  "type": "module",
   "keywords": [
-    "router",
     "cloudflare",
     "worker",
-    "workers",
-    "serverless",
-    "api",
-    "express",
-    "regex",
-    "routing",
-    "handler",
-    "params",
-    "request",
-    "response",
-    "service worker",
-    "sw",
-    "cf",
-    "optional",
-    "middleware",
-    "nested",
-    "rest",
-    "crud",
-    "query",
-    "parameters",
-    "durable",
-    "objects"
+    "kv",
+    "storage",
+    "store",
+    "cache"
   ],
   "scripts": {
-    "docs:dev": "cp README.md ./docs/pages/README.md && vite",
-    "docs:build": "cp README.md ./docs/pages/README.md && vite build",
-    "docs:serve": "vite preview",
-    "lint": "npx eslint src",
-    "test:dist": "jest --verbose --coverage dist",
-    "test": "yarn lint && jest --verbose --coverage src",
-    "verify": "echo 'verifying module...' && yarn build && yarn test && yarn test:dist",
+    "lint": "echo linting...",
+    "test": "yarn lint && jest --verbose --coverage",
+    "test:dist": "yarn lint && jest --verbose --coverage",
+    "verify": "echo 'verifying module...' && yarn build && yarn test",
     "dev": "yarn lint && jest --verbose --watch src",
     "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls",
     "prerelease": "yarn verify",
-    "prebuild": "rimraf dist && mkdir dist && node prebuild.js && cp src/itty-router.d.ts dist",
-    "build": "uglifyjs dist/itty-router.js -c -m --toplevel > dist/itty-router.min.js",
-    "postbuild": "node check-size.js",
+    "prebuild": "rimraf dist && mkdir dist",
+    "build": "esbuild ./src/index.js --bundle --format=cjs --outfile=dist/index.min.js --minify",
     "release": "release --tag --push"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kwhitley/itty-router.git"
+    "url": "git+https://github.com/kwhitley/cloudflare-kv-store.git"
   },
   "author": "Kevin R. Whitley <krwhitley@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/kwhitley/itty-router/issues"
+    "url": "https://github.com/kwhitley/cloudflare-kv-store/issues"
   },
-  "homepage": "https://itty-router.dev",
+  "homepage": "https://cloudflare-kv-store.dev",
   "devDependencies": {
     "@vitejs/plugin-vue": "^1.4.0",
     "@vue/compiler-sfc": "^3.2.2",
     "chalk": "^4.1.2",
     "coveralls": "^3.1.1",
+    "esbuild": "^0.14.25",
     "eslint": "^7.32.0",
     "eslint-plugin-jest": "^24.4.0",
     "fs-extra": "^10.0.0",
     "gzip-size": "^6.0.0",
     "isomorphic-fetch": "^3.0.0",
     "jest": "^27.0.6",
+    "jest-esbuild": "^0.2.6",
     "rimraf": "^3.0.2",
     "uglify-js": "^3.14.1",
     "vite": "^2.4.4",
     "yarn": "^1.22.11",
     "yarn-release": "^1.10.3"
+  },
+  "dependencies": {
+    "deepmerge": "^4.2.2",
+    "itty-router": "^2.5.2",
+    "itty-router-extras": "^0.4.2",
+    "supergeneric": "^2.1.0"
   }
 }
