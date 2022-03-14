@@ -1,6 +1,6 @@
 {
   "name": "cloudflare-kv-store",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Simpler Cloudflare KV Store implementation.",
   "main": "./dist/index.min.js",
   "files": [
@@ -35,7 +35,6 @@
   "bugs": {
     "url": "https://github.com/kwhitley/cloudflare-kv-store/issues"
   },
-  "homepage": "https://cloudflare-kv-store.dev",
   "devDependencies": {
     "@vitejs/plugin-vue": "^1.4.0",
     "@vue/compiler-sfc": "^3.2.2",

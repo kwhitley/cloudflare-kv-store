@@ -155,7 +155,10 @@ class KVStore {
 
   // update path with obj (merge if object or replace if not), with optional expiration TTL
   async update(path, content, options = {}) {
-    const { upsert = false } = options
+    const {
+      upsert = false,
+      merge = true,
+    } = options
 
     const original = await this.get(path)
     const key = makePath(this.path, path)
@@ -169,7 +172,9 @@ class KVStore {
     }
 
     if (typeof content === 'object') {
-      content = merge(original, content, { arrayMerge: (dest, source) => source })
+      if (merge) {
+        content = merge(original, content, { arrayMerge: (dest, source) => source })
+      }
 
       if (this.timestamps) {
         content.modified = new Date
@@ -181,6 +186,10 @@ class KVStore {
 
   async upsert(path, content, options = {}) {
     return this.update(path, content, { ...options, upsert: true })
+  }
+
+  async replace(path, content, options = {}) {
+    return this.update(path, content, { ...options, merge: false })
   }
 }
 
