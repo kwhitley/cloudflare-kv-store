@@ -4,7 +4,7 @@ A simplified interface for Cloudflare's KV store, complete with auto-parsing, ti
 
 # Installation
 ```
-npm install scloudflare-kv-store
+npm install cloudflare-kv-store
 ```
 
 Examples & API to follow...
