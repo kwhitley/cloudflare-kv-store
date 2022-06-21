@@ -107,12 +107,12 @@ class KVStore {
 
     const {
       populate = false,
-      limit = 1000,
       stripPrefix = false,
+      ...other
     } = options
 
     const path = makePath(this.path, prefix)
-    const index = await this.kv.list({ prefix: path, limit })
+    const index = await this.kv.list({ prefix: path, ...other })
 
     if (!populate) {
       return index.keys.map(k => stripPrefix ? k.name.replace(path, '').replace(/^\//, '') : k.name)
