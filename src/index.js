@@ -31,6 +31,19 @@ class KVStore {
     return await Promise.all(index.map(key => this.kv.delete(key).then(() => key)))
   }
 
+  async count(prefix) {
+    const path = makePath(this.path, prefix)
+    let count = 0
+    let list_complete
+    let keys
+    let cursor
+
+    do {
+      ({ list_complete, keys, cursor } = await this.kv.list({ prefix: path, cursor }))
+      count += keys.length
+    } while (!list_complete)
+  }
+
   async create(content, options = {}) {
     let id = this.newId() || options.id
     let isObject = typeof content === 'object'
