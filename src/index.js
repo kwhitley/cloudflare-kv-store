@@ -42,6 +42,8 @@ class KVStore {
       ({ list_complete, keys, cursor } = await this.kv.list({ prefix: path, cursor }))
       count += keys.length
     } while (!list_complete)
+
+    return count
   }
 
   async create(content, options = {}) {
