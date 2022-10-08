@@ -104,14 +104,25 @@ class KVStore {
   }
 
   async getOne(path, options = {}) {
-    let { autodetect = true, type } = options
-    let content = await this.kv.get(makePath(this.path, path), this.type || type)
+    let {
+      autodetect = true,
+      type,
+      metadata,
+    } = options
+    let { value, metadata: m } = await this.kv.getWithMetadata(makePath(this.path, path), this.type || type)
 
-    if (autodetect && content && content.match && content.match(/^[\[\{]/)) {
-      content = JSON.parse(content)
+    if (autodetect && value && value.match && value.match(/^[\[\{]/)) {
+      value = JSON.parse(value)
     }
 
-    return content
+    if (metadata) {
+      return {
+        value,
+        metadata: m,
+      }
+    }
+
+    return value
   }
 
   async list(prefix = '', options = {}) {
@@ -142,18 +153,24 @@ class KVStore {
       ttl = this.ttl,
       timestamp = false,
       saveOwnership = false,
+      metadata = undefined
     } = options
 
     const content = (['json', 'text']).includes(this.type) && typeof originalContent === 'object' ? JSON.stringify(originalContent) : originalContent || ''
     const now = timestamp ? (new Date).toISOString() : undefined
     const key = makePath(this.path, path, now)
+    const putOptions = {}
 
     if (ttl) {
-      ttl = { expirationTtl: ttl }
+      putOptions.expirationTtl = ttl
+    }
+
+    if (metadata) {
+      putOptions.metadata = metadata
     }
 
     let actions = [
-      this.kv.put(key, content, ttl),
+      this.kv.put(key, content, putOptions),
     ]
 
     if (saveOwnership) {
