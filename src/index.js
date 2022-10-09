@@ -156,7 +156,13 @@ class KVStore {
       metadata = undefined
     } = options
 
-    const content = (['json', 'text']).includes(this.type) && typeof originalContent === 'object' ? JSON.stringify(originalContent) : originalContent || ''
+    let content = originalContent
+
+    if (content.constructor.name !== 'ArrayBuffer') {
+      if (typeof content !== 'string') {
+        content = JSON.stringify(content)
+      }
+    }
     const now = timestamp ? (new Date).toISOString() : undefined
     const key = makePath(this.path, path, now)
     const putOptions = {}
